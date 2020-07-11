@@ -94,27 +94,36 @@ class Stock {
             }])
           },
           data: this.prices,
-        },
+        }
       ]
     }
   }
   // 添加价格操作
   updatePrice(price) {
     this.prices.push(price);
-    this.currentPrice = price;
+    console.log(this.name, this.prices);
   }
   // 启动
-  start() {
-    this.timeId = setInterval(() => {
-      const randomPrice = randomNum(this.basePrice+10, this.basePrice, 2);
-      this.updatePrice(randomPrice);
-      if (this.chart) {
-        this.chart.setOption(this.option);
+  start(index) {
+    (
+      () => {
+        this.timeId = setInterval(() => {
+          const randomPrice = randomNum(this.basePrice+10, this.basePrice, 2);
+          this.updatePrice(randomPrice);
+          // 这里设置会阻碍mock生成
+          // if (this.chart) {
+          //   this.chart.setOption(this.option);
+          // }
+          // console.log(index);
+        }, this.intervalTime);
       }
-    }, this.intervalTime);
+    )()
   }
-  stop() {
-    clearInterval(this.timeId);
+  stop(index) {
+    (() => {
+      clearInterval(this.timeId);
+      console.log(index);
+    })()
   }
   mockTimes() {
     let _current = new Date();
